@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//client -> Controller → Service → Repository (DAO) → Database
+
 @RestController
 @RequestMapping("question")
 public class QuestionController
@@ -17,7 +20,7 @@ public class QuestionController
 
 
     @GetMapping("allQuestions")
-    public List<Question> getAllQuestions()
+    public List<Question> getAllQuestions() // returning list of objects
     {
         return questionService.getAllQuestions();
     }
