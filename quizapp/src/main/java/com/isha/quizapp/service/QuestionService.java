@@ -3,8 +3,11 @@ package com.isha.quizapp.service;
 import com.isha.quizapp.Question;
 import com.isha.quizapp.dao.QuestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //Service layer fetches data from DAO layer
@@ -17,6 +20,33 @@ public class QuestionService
 
     public List<Question> getAllQuestions()
     {
-        return questionDao.findAll(); // finnd all method will get the list of questions
+        try {
+            return questionDao.findAll(); // findAll method will get the list of questions
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        // if exception
+        return new ArrayList<>();
+    }
+
+    public List<Question> getAllQuestionsByCategory(String category)
+    {
+        try
+        {
+            return questionDao.findByCategory(category);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public String addQuestion(Question question)
+    {
+        questionDao.save(question);
+        return "success";
     }
 }
