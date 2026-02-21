@@ -44,6 +44,12 @@ public class QuestionService
         return new ArrayList<>();
     }
 
+    // for question based on the difficulty level
+    public List<Question> getAllQuestionsByDifficultyLevel(String difficultyLevel)
+    {
+        return questionDao.findAll(); // find all the questions with the same level of difficulty
+    }
+
     public String addQuestion(Question question)
     {
         questionDao.save(question);

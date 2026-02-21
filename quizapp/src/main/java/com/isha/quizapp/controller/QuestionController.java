@@ -14,12 +14,19 @@ import java.util.List;
 
 //client -> Controller → Service → Repository (DAO) → Database
 
+
+/*
+This line allows frontend to access backend
+CORS - Cross Origin Resource Sharing
+CORS allows frontend and backend running on different origins to communicate
+ */
+@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("question")
 public class QuestionController
 {
-
-    @Autowired
+        @Autowired
     QuestionService questionService;
 
 
@@ -46,7 +53,8 @@ public class QuestionController
     public List<Question> getAllQuestionsByCategory(@PathVariable("cat") String category)
      */
     @GetMapping("category/{category}")
-    public ResponseEntity<List<Question>> getAllQuestionsByCategory(@PathVariable String category) {
+    public ResponseEntity<List<Question>> getAllQuestionsByCategory(@PathVariable String category)
+    {
         try
         {
             return new ResponseEntity<>(questionService.getAllQuestionsByCategory(category), HttpStatus.OK);
@@ -54,8 +62,24 @@ public class QuestionController
         catch (Exception e)
         {
             e.printStackTrace(); // This prints error in console ; used for Debugging
+                                 // example : Database connection failed
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
+    // for category based on level of the questions
+    @GetMapping("difficultyLevel/{difficultyLevel}")
+        public ResponseEntity<List<Question>> getAllQuestionsByDifficultyLevel(@PathVariable String difficultyLevel)
+    {
+        try
+        {
+            return new ResponseEntity<>(questionService.getAllQuestionsByDifficultyLevel(difficultyLevel),HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
     }
 
     // for adding questions i.e., the user will post questions there
@@ -64,12 +88,15 @@ public class QuestionController
     {
         try
         {
+            //ResponseEntity here send the status code to the frontend
+            //if status == 200 → success
+            //if status == 400 → error
             return new ResponseEntity<>(questionService.addQuestion(question),HttpStatus.OK);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Error Occurred", HttpStatus.BAD_REQUEST);
     }
 }

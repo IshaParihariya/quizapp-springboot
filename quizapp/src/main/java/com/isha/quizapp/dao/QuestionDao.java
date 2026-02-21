@@ -30,4 +30,7 @@ public interface QuestionDao extends JpaRepository<Question,Integer>
     // or JPQL
   List<Question> findByCategory(String category);
 
+  // find by the difficulty level of the questions from the database
+  List<Question> findByDifficultyLevel(String difficultyLevel);
+
 }
